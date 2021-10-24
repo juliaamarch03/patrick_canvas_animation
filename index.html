@@ -37,7 +37,7 @@
             var spriteHeight = 350;
 
             var rows = 2;//кількість колонок
-            var cols = 9;//кількість кадрів
+            var cols = 10;//кількість кадрів
 
             //0 (перший) рядок для руху вправо
             var trackRight = 0;
@@ -71,7 +71,7 @@
             var right = true;
 
             //швидкість руху
-            var speed = 12;
+            var speed = 10;
 
             var canvas = document.getElementById('canvas');
 
@@ -111,7 +111,7 @@
                 updateFrame();
                 ctx.drawImage(character,srcX,srcY,width,height,x,y,width,height);
             }
-            setInterval(draw,230);
+            setInterval(draw,200);
 
             function moveLeft(){
              left = true;
