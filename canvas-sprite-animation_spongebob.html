@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>SpongeBob sprite-canvas-animation</title>
+    <style>
+        #canvas{
+          background-image: url(bg.gif);
+        }
+        button{
+          border-radius: 20px;
+          width: 110px;
+          height: 40px;
+          background-color: #5D747A;
+          color: #fff;
+        }
+        #btns{
+          margin-left: 250px;
+        }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <br>
+    <br>
+    <div id="btns">
+      <button onclick='moveLeft()'>Вліво</button>
+      <button onclick='moveRight()'>Вправо</button>
+    </div>
+    <script>
+            //Довжина і висота спрайту
+            var canvasWidth = 800;
+            var canvasHeight = 600;
+
+            //Довжина і висота картинки з кадрами
+            var spriteWidth = 1632;
+            var spriteHeight = 350;
+
+            var rows = 2;//кількість колонок
+            var cols = 10;//кількість кадрів
+
+            //0 (перший) рядок для руху вправо
+            var trackRight = 0;
+
+            //1 (другий) рядок для руху вліво
+            var trackLeft = 1;
+
+            //для отримання довжини 1 кадру ділимо довжину картинку на кількість кадрів
+            var width = spriteWidth/cols;
+
+            //для отримання висоти 1 кадру ділимо висоту картинки на кількість колонок
+            var height = spriteHeight/rows;
+
+            //початковий кадр
+            var curFrame = 0;
+
+            var frameCount = 10;//загальна кількість кадрів
+
+            //координати х і у для відтворення спрайта
+            var x=200;
+            var y=400;
+
+            //координати х і у canvas щоб отримати єдиний кадр
+            var srcX=0;
+            var srcY=0;
+
+            //відстеження руху вліво і написання
+            var left = false;
+
+            //Припускаючи, що на початку персонаж рухатиметься праворуч
+            var right = true;
+
+            //швидкість руху
+            var speed = 12;
+
+            var canvas = document.getElementById('canvas');
+
+            //налаштування довжини та ширини canvas
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            var ctx = canvas.getContext("2d");
+            var character = new Image();
+            character.src = "patrick.png";
+
+            function updateFrame(){
+                //оновлення показника кадру
+                curFrame = ++curFrame % frameCount;
+
+                //обчислення координати х для спрайта
+                srcX = curFrame * width;
+                ctx.clearRect(x,y,width,height);
+
+                if(left && x>0){
+                  //обчислення srcY
+                  srcY = trackLeft * height;
+                  //зменшення координати x
+                  x-=speed;
+                }
+
+                //якщо правий правильний і символ не досяг правого краю
+                if(right && x<canvasWidth-width){
+                  //обчислення координати y для спрайта
+                  srcY = trackRight * height;
+                  //збільшення координати х
+                  x+=speed;
+                }
+            }
+            function draw(){
+                //оновлення кадру
+                updateFrame();
+                ctx.drawImage(character,srcX,srcY,width,height,x,y,width,height);
+            }
+            setInterval(draw,230);
+
+            function moveLeft(){
+             left = true;
+             right = false;
+            }
+
+            function moveRight(){
+             left = false;
+             right = true;
+            }
+    </script>
+  </body>
+</html>
